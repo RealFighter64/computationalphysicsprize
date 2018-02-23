@@ -13,3 +13,8 @@ in order to help demostrate the capabilities of the program, I've pre-rendered s
 put in a folder called 'examples'.
 
 The program requires both numpy and matplotlib be installed on your local version of Python.
+To run it, just type:
+
+    python main.py <number of particles> <particle size> <number of frames>
+
+The program runs at 15 frames per second.

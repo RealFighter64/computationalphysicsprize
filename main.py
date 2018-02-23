@@ -7,23 +7,27 @@ import numpy as np
 
 import math
 from itertools import combinations
-from sys import argv
+from sys import argv, exit
 
 from particle import Particle
 import render
 import heatmap
 
+if(len(argv) != 4):
+    print("Usage: main.py <number of particles> <particle size> <number of frames (15 frames / second)>")
+    exit()
+
 # Constants
 frameRate = 15
 gasConstant = 8.3144598 # The Gas Constant, R, for use in calculating the particles' average velocity.
-numberOfParticles = 500 # The number of particles in the whole 10x10 grid
+numberOfParticles = int(argv[1]) # The number of particles in the whole 10x10 grid
 temperature = 100.0
 molarMass = 29.0
 zoomFactor = 1
 particleVelocity = math.sqrt((3*gasConstant*temperature)/molarMass) * zoomFactor
 
 # Set the random seed, for reproduceability.
-np.random.seed(110110475)
+# np.random.seed(110110475)
 
 # Set up a list of particles.
 particles = []
@@ -41,7 +45,7 @@ for i in range(0, numberOfParticles):
     partPos = partPos * [20, 20] + [-10, -10]
     partVelX, up = np.random.rand(2) * [2, 2] + [-1, -1]
     partVel = np.array([partVelX, getYComp(partVelX, up>0)]) * particleVelocity
-    part = Particle(partPos, 0.3, 1, partVel)
+    part = Particle(partPos, float(argv[2]), 1, partVel)
     particles.append(part)
 
 # Initialize the render process.
@@ -88,7 +92,7 @@ Writer = animation.writers['ffmpeg']
 writer = Writer(fps=frameRate, metadata=dict(artist='Me'), bitrate=1800)
 
 # Set up the animation.
-ani = animation.FuncAnimation(render.figure(), anim, int(argv[1]), init_func=init, interval=1/frameRate)
+ani = animation.FuncAnimation(render.figure(), anim, int(argv[3]), init_func=init, interval=1/frameRate)
 
 # Start the rendering process!
 ani.save('parts.mp4', writer=writer)
