@@ -13,6 +13,7 @@ from particle import Particle
 import render
 import heatmap
 
+# Check arguments.
 if(len(argv) != 4):
     print("Usage: main.py <number of particles> <particle size> <number of frames (15 frames / second)>")
     exit()
